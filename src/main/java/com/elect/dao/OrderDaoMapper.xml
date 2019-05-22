@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elect.dao.OrderDao">
+    <insert id="addOrder" parameterType="Order" useGeneratedKeys="true" keyProperty="id" >
+        insert into d_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="user_id != 0 ">
+                user_id,
+            </if>
+            <if test="order_time != 0 ">
+                order_time,
+            </if>
+            <if test="total_price != 0 ">
+                total_price,
+            </if>
+            <if test="receive_name != null ">
+                receive_name,
+            </if>
+            <if test="full_address != null ">
+                full_address,
+            </if>
+            <if test="postal_code != null ">
+                postal_code,
+            </if>
+            <if test="mobile != null ">
+                mobile,
+            </if>
+            <if test="phone != null ">
+                phone,
+            </if>
+            <if test="status != 0 ">
+                status
+            </if>
+        </trim>
+        <trim prefix="value(" suffix=")" suffixOverrides=",">
+            <if test="user_id != 0 ">
+                #{user_id},
+            </if>
+            <if test="order_time != 0 ">
+                #{order_time},
+            </if>
+            <if test="total_price != 0 ">
+                #{total_price},
+            </if>
+            <if test="receive_name != null ">
+                #{receive_name},
+            </if>
+            <if test="full_address != null ">
+                #{full_address},
+            </if>
+            <if test="postal_code != null ">
+                #{postal_code},
+            </if>
+            <if test="mobile != null ">
+                #{mobile},
+            </if>
+            <if test="phone != null ">
+                #{phone},
+            </if>
+            <if test="status != 0 ">
+                #{status}
+            </if>
+        </trim>
+    </insert>
+</mapper>

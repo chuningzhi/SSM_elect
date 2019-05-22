@@ -1,0 +1,103 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elect.dao.ProductDao">
+
+    <insert id="addProduct" parameterType="Product" useGeneratedKeys="true" keyProperty="id" >
+        insert into d_product
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="product_name != null">
+                product_name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="add_time != null">
+                add_time,
+            </if>
+            <if test="fixed_price != null">
+                fixed_price,
+            </if>
+            <if test="dang_price != null">
+                dang_price,
+            </if>
+            <if test="keywords != null">
+                keywords,
+            </if>
+            <if test="has_deleted != null">
+                has_deleted,
+            </if>
+            <if test="product_pic != null">
+                product_pic
+            </if>
+        </trim>
+        <trim prefix="value(" suffix=")" suffixOverrides=",">
+            <if test="product_name != null">
+                #{product_name},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="add_time != null">
+                #{add_time},
+            </if>
+            <if test="fixed_price != null">
+                #{fixed_price},
+            </if>
+            <if test="dang_price != null">
+                #{dang_price},
+            </if>
+            <if test="keywords != null">
+                #{keywords},
+            </if>
+            <if test="has_deleted != null">
+                #{has_deleted},
+            </if>
+            <if test="product_pic != null">
+                #{product_pic},
+            </if>
+        </trim>
+    </insert>
+
+
+    <delete id="deleteProduct" parameterType="int">
+        delete from d_product where id = #{pid}
+    </delete>
+
+    <update id="updateProduct" parameterType="Product">
+        update d_product set product_name = #{product_name},dang_price = #{dang_price} where id = #{id}
+    </update>
+
+
+    <select id="findAllProduct" resultMap="productMap">
+        select * from d_product
+    </select>
+
+
+    <select id="findProducts" resultMap="productMap">
+        SELECT * FROM d_product JOIN d_book
+            ON d_book.id=d_product.id AND d_product.id
+            IN(SELECT product_id FROM d_category_product WHERE cat_id = #{id}) limit #{page},#{pageSize}
+    </select>
+
+
+    <resultMap id="productMap"  type="Product">
+        <id property="id" column="id"></id>
+        <result property="product_name" column="product_name"/>
+        <result property="description" column="description"/>
+        <result property="add_time" column="add_time"/>
+        <result property="fixed_price" column="fixed_price"/>
+        <result property="dang_price" column="dang_price"/>
+        <result property="keywords" column="keywords"/>
+        <result property="has_deleted" column="has_deleted"/>
+        <result property="product_pic" column="product_pic"/>
+        <association property="book" select="com.elect.dao.BookDao.findBookById" column="id"></association>
+    </resultMap>
+
+    <select  id="findProductById" parameterType="int" resultMap="productMap">
+        select * from d_product where id = #{product_id}
+    </select>
+
+
+
+</mapper>

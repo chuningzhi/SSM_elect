@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elect.dao.UserDao">
+    
+    <select id="login" parameterType="User" resultType="User">
+        select * from d_user where email = #{email} and password = #{password}
+    </select>
+    
+    
+    <update id="updateIsEmailVerify" parameterType="int">
+        update d_user set is_email_verify = 'Y' where id = #{userId}
+    </update>
+
+
+    <select id="findUserByEmail" parameterType="String" resultType="User">
+        select * from d_user where email = #{email}
+    </select>
+    
+    <insert id="addUser" parameterType="User" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        insert into d_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                id,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="nickname != null" >
+                nickname,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="user_integral != null" >
+                user_integral,
+            </if>
+            <if test="is_email_verify != null" >
+                is_email_verify,
+            </if>
+            <if test="email_verify_code != null" >
+                email_verify_code,
+            </if>
+            <if test="last_login_time != null" >
+                last_login_time,
+            </if>
+            <if test="last_login_ip != null" >
+                last_login_ip
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null" >
+                #{id},
+            </if>
+            <if test="email != null" >
+                #{email},
+            </if>
+            <if test="nickname != null" >
+                #{nickname},
+            </if>
+            <if test="password != null" >
+                #{password},
+            </if>
+            <if test="user_integral != null" >
+                #{user_integral},
+            </if>
+            <if test="is_email_verify != null" >
+                #{is_email_verify},
+            </if>
+            <if test="email_verify_code != null" >
+                #{email_verify_code},
+            </if>
+            <if test="last_login_time != null" >
+                #{last_login_time},
+            </if>
+            <if test="last_login_ip != null" >
+                #{last_login_ip}
+            </if>
+        </trim>
+    </insert>
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elect.dao.BookDao">
+
+    <insert id="addBook" parameterType="Book">
+        insert into d_book
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != 0">
+                id,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="publishing != null">
+                publishing,
+            </if>
+            <if test="publish_time != 0">
+                publish_time,
+            </if>
+            <if test="word_number != null">
+                word_number,
+            </if>
+            <if test="which_edtion != null">
+                which_edtion,
+            </if>
+            <if test="total_page != null">
+                total_page,
+            </if>
+            <if test="print_time != 0">
+                print_time,
+            </if>
+            <if test="print_number != null">
+                print_number,
+            </if>
+            <if test="isbn != null">
+                isbn,
+            </if>
+            <if test="author_summary != null">
+                author_summary,
+            </if>
+            <if test="catalogue != null">
+                catalogue,
+            </if>
+        </trim>
+        <trim prefix="value(" suffix=")" suffixOverrides=",">
+            <if test="id != 0">
+                #{id},
+            </if>
+            <if test="author != null">
+                #{author},
+            </if>
+            <if test="publishing != null">
+                #{publishing},
+            </if>
+            <if test="publish_time != 0">
+                #{publish_time},
+            </if>
+            <if test="word_number != null">
+                #{word_number},
+            </if>
+            <if test="which_edtion != null">
+                #{which_edtion},
+            </if>
+            <if test="total_page != null">
+                #{total_page},
+            </if>
+            <if test="print_time != 0">
+                #{print_time},
+            </if>
+            <if test="print_number != null">
+                #{print_number},
+            </if>
+            <if test="isbn != null">
+                #{isbn},
+            </if>
+            <if test="author_summary != null">
+                #{author_summary},
+            </if>
+            <if test="catalogue != null">
+                #{catalogue},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteBook" parameterType="int">
+        delete from d_book where id = #{pid}
+    </delete>
+    
+    
+    <update id="updateBook" parameterType="Book">
+        update d_book set author = #{author} where id = #{id}
+    </update>
+    
+    <select id="findBookById" parameterType="int" resultType="Book">
+        select * from d_book where id = #{ranInt}
+    </select>
+</mapper>

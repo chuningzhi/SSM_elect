@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elect.dao.AddressDao">
+    <select id="findAddressByUserId" parameterType="int" resultType="Address">
+        select * from d_receive_address where user_id = #{user_id}
+    </select>
+
+    <insert id="addAddress" parameterType="Address">
+        insert into d_receive_address(user_id,receive_name,full_address,postal_code,mobile,phone)
+            value(#{user_id},#{receive_name},#{full_address},#{postal_code},#{mobile},#{phone})
+    </insert>
+</mapper>

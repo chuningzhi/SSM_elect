@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elect.dao.CategoryDao">
+
+    <insert id="addCategoryProduct" >
+        insert into d_category_product(product_id,cat_id) value (#{pid},#{cid})
+    </insert>
+
+
+    <delete id="deleteCategoryProduct" parameterType="int">
+        delete from d_category_product where product_id = #{pid}
+    </delete>
+
+    <update id="updateCategoryProduct">
+        update d_category_product set cat_id = #{newCid} where product_id =#{pid} and cat_id =#{oldCid}
+    </update>
+
+    <update id="updateCategory" parameterType="Category">
+        update d_category set
+        <trim prefix="" suffix=""  suffixOverrides=",">
+            <if test="turn != 0">
+                turn = #{turn},
+            </if>
+            <if test="en_name != null">
+                en_name = #{en_name},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="parent_id != 0">
+                parent_id = #{parent_id}
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteCategoryProductByCategoryId" parameterType="int">
+        delete from d_category_product where cat_id = #{cid}
+    </delete>
+
+
+    <delete id="deleteCategory" parameterType="int">
+        delete from d_category where id = #{cid}
+    </delete>
+
+
+    <insert id="addCategory" parameterType="Category">
+        insert into d_category
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="id != 0">
+                id,
+            </if>
+            <if test="turn != 0">
+                turn,
+            </if>
+            <if test="en_name != null">
+                en_name,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="parent_id != null">
+                parent_id
+            </if>
+        </trim>
+        <trim prefix="value(" suffix=")" prefixOverrides=",">
+            <if test="id != 0">
+                #{id},
+            </if>
+            <if test="turn != 0">
+                #{turn},
+            </if>
+            <if test="en_name != null">
+                #{en_name},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="parent_id != null">
+                #{parent_id}
+            </if>
+        </trim>
+    </insert>
+    
+    <select id="findCateIdsByProductId" parameterType="int" resultType="int">
+        select cat_id from d_category_product where product_id = #{pid}
+    </select>
+
+
+    <select id="findCategorysByParentId" parameterType="int" resultType="Category">
+        select * from d_category where parent_id = #{parent_id}
+    </select>
+
+
+    <resultMap id="categoryMap" type="Category">
+        <id property="id" column="id"></id>
+        <result property="turn" column="turn"/>
+        <result property="en_name" column="en_name"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="turn" column="turn"/>
+        <result property="parent_id" column="parent_id"/>
+        <collection property="categories" select="findCategoryByParentId" column="id"/>
+        <collection property="categoryProducts" select="com.elect.dao.CategoryProductDao.findCategoryProductsByCatId" column="id"/>
+    </resultMap>
+    
+    <select id="findCategoryByParentId" parameterType="int" resultMap="categoryMap">
+        select * from d_category where parent_id = #{parent_id};
+    </select>
+
+    <select id="findCateById" parameterType="int" resultType="Category">
+        select * from d_category where id = #{cid};
+    </select>
+</mapper>
